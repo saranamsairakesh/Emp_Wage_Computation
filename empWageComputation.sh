@@ -11,7 +11,6 @@ wagePerMonth=0
 noOfDays=1
 noOfHours=0
 partTimeCount=0
-index=0
 
 function workHours(){
 	local attendance=$1
@@ -52,14 +51,13 @@ while [ $noOfDays -lt 20 ] && [ $noOfHours -lt 100 ]
 	esac
 	noOfHours=$(($noOfHours+$workHours))
 	wagePerMonth=$(($wagePerMonth+$dailyWage))
-	dailyWageArray[$index]=$dailyWage
-	totalWageArray[$index]=$wagePerMonth
-	index=$(($index+1))
+	dailyWageArray[$noOfDays]=$dailyWage
+	totalWageArray[$noOfDays]=$wagePerMonth
 done
 
 echo "No of Hours= "$noOfHours", No of Days= "$noOfDays", Monthly Wage= "$wagePerMonth
-length=${#dailyWageArray[@]}
-for((i=0;i<$length;i++))
+
+for((i=1;i<=$noOfDays;i++))
 do
-	echo "Daily & Total Wages are: "${dailyWageArray[$i]}" - "${totalWageArray[$i]}
+	echo "Day: "$i", Daily Wage: "${dailyWageArray[$i]}", Total Wage: "${totalWageArray[$i]}
 done
