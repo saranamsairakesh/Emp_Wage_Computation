@@ -1,4 +1,7 @@
 echo "Welcome to Employee Wage Computation Program on Master Branch"
+declare -A dailyWageArray
+declare -A totalWageArray
+
 wagePerHr=20
 fullDailyHr=8
 partTimeHr=4
@@ -8,6 +11,7 @@ wagePerMonth=0
 noOfDays=1
 noOfHours=0
 partTimeCount=0
+index=0
 
 function workHours(){
 	local attendance=$1
@@ -48,6 +52,14 @@ while [ $noOfDays -lt 20 ] && [ $noOfHours -lt 100 ]
 	esac
 	noOfHours=$(($noOfHours+$workHours))
 	wagePerMonth=$(($wagePerMonth+$dailyWage))
+	dailyWageArray[$index]=$dailyWage
+	totalWageArray[$index]=$wagePerMonth
+	index=$(($index+1))
 done
 
 echo "No of Hours= "$noOfHours", No of Days= "$noOfDays", Monthly Wage= "$wagePerMonth
+length=${#dailyWageArray[@]}
+for((i=0;i<$length;i++))
+do
+	echo "Daily & Total Wages are: "${dailyWageArray[$i]}" - "${totalWageArray[$i]}
+done
