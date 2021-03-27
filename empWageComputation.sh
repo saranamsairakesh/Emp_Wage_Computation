@@ -4,16 +4,19 @@ wagePerHr=20
 fullDailyHr=8
 partTimeHr=4
 dailyWage=0
-if [ $attendance -eq 0 ]
-then
-	echo "Employee is Absent"
-	dailyWage=0
-elif [ $attendance -eq 1 ]
-then
-	echo "Employee is Present Half Day "
-	dailyWage=$(($wagePerHr*$partTimeHr))
-else
-	echo "Employee is Present Full Day"
-	dailyWage=$(($wagePerHr*$fullDailyHr))
-fi
+
+case $attendance in
+				0)
+					echo "Employee is Absent"
+					;;
+				1)
+					echo "Employee is Present Half Day"
+					dailyWage=$(($wagePerHr*$partTimeHr))
+					;;
+				2)
+					echo "Employee is Present Full Day"
+					dailyWage=$(($wagePerHr*$fullDailyHr))
+					;;
+esac
+
 echo "Daily Wage= "$dailyWage
