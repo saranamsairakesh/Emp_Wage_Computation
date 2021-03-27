@@ -9,16 +9,31 @@ noOfDays=1
 noOfHours=0
 partTimeCount=0
 
+function workHours(){
+	local attendance=$1
+	if [ $attendance -eq 0 ]
+	then
+		workHours=0
+	elif [ $attendance -eq 1 ]
+	then
+		workHours=$partTimeHr
+	else
+		workHours=$fullDailyHr
+	fi
+	echo $workHours
+}
+
+echo $workHours
 while [ $noOfDays -lt 20 ] && [ $noOfHours -lt 100 ]
 	do
 		attendance=$(($RANDOM%3))
+		workHours=" $( workHours $(($attendance)) )"
 		case $attendance in
 			0)
 				dailyWage=0
 				;;
 			1)
 				dailyWage=$(($wagePerHr*$partTimeHr))
-				noOfHours=$(($noOfHours+4))
 				partTimeCount=$(($partTimeCOunt+1))
 				if [ $partTimeCount -eq 2 ]
 				then
@@ -28,10 +43,10 @@ while [ $noOfDays -lt 20 ] && [ $noOfHours -lt 100 ]
 				;;
 			2)
 				dailyWage=$(($wagePerHr*$fullDailyHr))
-				noOfHours=$(($noOfHours+8))
 				noOfDays=$(($noOfDays+1))
 				;;
 	esac
+	noOfHours=$(($noOfHours+$workHours))
 	wagePerMonth=$(($wagePerMonth+$dailyWage))
 done
 
